@@ -60,7 +60,7 @@ var app = {
         iosSettings["kOSSettingsKeyInAppLaunchURL"] = true;
 
         window.plugins.OneSignal
-          .startInit("b2f7f966-d8cc-11e4-bed1-df8f05be55ba")
+          .startInit("b566bc80-2b7f-4af9-bc40-94016cbb13bd")
           .handleNotificationReceived(function(jsonData) {
             alert("Notification received: \n" + JSON.stringify(jsonData));
             console.log('Did I receive a notification: ' + JSON.stringify(jsonData));
@@ -147,34 +147,29 @@ function setSubscription() {
 app.initialize();
 
 
+ document.addEventListener('deviceready', function () {
+   // Enable to debug issues.
+ window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+ 
+   var notificationOpenedCallback = function(jsonData) {
+     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+   };
 
-
-// // Add to index.js or the first page that loads with your app.
-// // For Intel XDK and please add this to your app.js.
-
-// document.addEventListener('deviceready', function () {
-//   // Enable to debug issues.
-//   // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
-  
-//   var notificationOpenedCallback = function(jsonData) {
-//     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-//   };
-
-//   window.plugins.OneSignal
-//           .startInit("d368162e-7c4e-48b0-bc7c-b82ba80d4981")
-//           .handleNotificationReceived(function(jsonData) {
-//             alert("Notification received: \n" + JSON.stringify(jsonData));
-//             console.log('Did I receive a notification: ' + JSON.stringify(jsonData));
-//           })
-//           .handleNotificationOpened(function(jsonData) {
-//             alert("Notification opened: \n" + JSON.stringify(jsonData));
-//             console.log('didOpenRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-//           })
-//           .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.InAppAlert)
-//           .iOSSettings(iosSettings)
-//           .endInit();
+   window.plugins.OneSignal
+           .startInit("b566bc80-2b7f-4af9-bc40-94016cbb13bd")
+           .handleNotificationReceived(function(jsonData) {
+             alert("Notification received: \n" + JSON.stringify(jsonData));
+            console.log('Did I receive a notification: ' + JSON.stringify(jsonData));
+           })
+           .handleNotificationOpened(function(jsonData) {
+             alert("Notification opened: \n" + JSON.stringify(jsonData));
+             console.log('didOpenRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+           })
+          .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.InAppAlert)
+          .iOSSettings(iosSettings)
+ .endInit();
   
 //   // Call syncHashedEmail anywhere in your app if you have the user's email.
 //   // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
-//   // window.plugins.OneSignal.syncHashedEmail(userEmail);
-// }, false);
+window.plugins.OneSignal.syncHashedEmail(userEmail);
+}, false);
